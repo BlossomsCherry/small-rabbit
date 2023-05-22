@@ -1,0 +1,27 @@
+{
+  "name": "small-rabbit",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.7",
+    "element-plus": "^2.3.5",
+    "normalize.css": "^8.0.1",
+    "pinia": "^2.1.3",
+    "vue": "^3.2.47",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.1.0",
+    "less": "^4.1.3",
+    "unplugin-auto-import": "^0.16.1",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "^4.3.2"
+  }
+}
