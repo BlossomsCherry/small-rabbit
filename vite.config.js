@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import { defineConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -14,5 +16,11 @@ export default defineConfig({
         Components({
             resolvers: [ElementPlusResolver()]
         })
-    ]
+    ],
+    resolve: {
+        // 实际的路径转换  @  -> src
+        alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url))
+        }
+    }
 })
