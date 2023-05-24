@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
-import { getHomeBannerApi } from '@/services/modules/layout'
-import { getGoodsApi, getHomeNewApi, getHomeHotApi } from '@/services/modules/home'
+import {
+    getGoodsApi,
+    getHomeNewApi,
+    getHomeHotApi,
+    getHomeBannerApi
+} from '@/services/modules/home'
 
 const useHomeStore = defineStore('home', {
     state: () => ({
@@ -13,8 +17,8 @@ const useHomeStore = defineStore('home', {
     }),
     actions: {
         //轮播图
-        async fetchHomeBanner() {
-            const res = await getHomeBannerApi()
+        async fetchHomeBanner({}) {
+            const res = await getHomeBannerApi({})
             this.bannerList = res.data.result
             return res
         },
@@ -29,6 +33,7 @@ const useHomeStore = defineStore('home', {
         async fetchHomeNew() {
             const res = await getHomeNewApi()
             this.newList = res.data.result
+            return res
         },
 
         //人气推荐

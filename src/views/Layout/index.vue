@@ -2,7 +2,7 @@
     <div class="layout">
         <layout-fixed :categoryList="categoryList"></layout-fixed>
 
-        <!-- nav区域 -->
+        <!-- 导航栏 -->
         <layout-nav></layout-nav>
 
         <!-- header区域 -->
@@ -16,8 +16,10 @@
     </div>
 </template>
 
+<script>
+    export default { name: 'layout' }
+</script>
 <script setup>
-    import { onMounted, ref } from 'vue'
     import layoutNav from './components/layout-nav.vue'
     import layoutHeader from './components/layout-header.vue'
     import layoutFooter from './components/layout-footer.vue'
@@ -34,6 +36,6 @@
 
 <style lang="less" scoped>
     .layout {
-        background-color: #fff;
+        overflow-x: hidden;
     }
 </style>

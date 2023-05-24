@@ -1,18 +1,43 @@
 <template>
-    <div class="list">
-        <ul>
-            <template v-for="item in listData" :key="item.id">
-                <li>
-                    <router-link to="/">
-                        <img :src="item.picture" alt="" />
-                        <div class="name">{{ item.name }}</div>
-                        <slot>
-                            <div class="price"><i>￥</i>{{ item.price }}</div>
-                        </slot>
-                    </router-link>
-                </li>
-            </template>
-        </ul>
+    <div class="bg-list">
+        <div class="head">
+            <h1>
+                {{ headTitle }} <small>{{ smallTitle }}</small>
+            </h1>
+        </div>
+        <div class="list">
+            <slot name="left"></slot>
+            <ul>
+                <template v-for="item in listData" :key="item.id">
+                    <li
+                        :style="{
+                            width: width,
+                            padding: padding,
+                            backgroundColor: backgroundColor,
+                            height: height
+                        }"
+                    >
+                        <router-link to="/">
+                            <img :src="item.picture" alt="" />
+                            <div class="name">{{ item.name || item.title }}</div>
+                            <slot name="desc">
+                                <div class="desc">{{ item.desc }}</div>
+                            </slot>
+
+                            <div
+                                class="bottom"
+                                :style="{ color: bottomColor, fontSize: bottomFontSize }"
+                            >
+                                <slot name="bottom">
+                                    <i>￥</i>
+                                </slot>
+                                {{ item.price || item.alt }}
+                            </div>
+                        </router-link>
+                    </li>
+                </template>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -21,30 +46,81 @@
         listData: {
             type: Array,
             default: []
+        },
+        headTitle: {
+            type: String,
+            default: ''
+        },
+        smallTitle: {
+            type: String,
+            default: ''
+        },
+        bottomColor: {
+            type: String,
+            default: ''
+        },
+        bottomFontSize: {
+            type: String,
+            default: ''
+        },
+        width: {
+            type: String,
+            default: ''
+        },
+        padding: {
+            type: String,
+            default: ''
+        },
+        backgroundColor: {
+            type: String,
+            default: ''
+        },
+        height: {
+            type: String,
+            default: ''
         }
     })
 </script>
 
 <style lang="less" scoped>
+    .head {
+        padding: 40px 0;
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 400;
+            color: #333;
+            small {
+                padding-left: 10px;
+                font-size: 16px;
+                color: #999;
+            }
+        }
+    }
     .list {
+        display: flex;
         ul {
             display: flex;
+            width: 100%;
             flex-wrap: wrap;
             justify-content: space-between;
             li {
                 width: 306px;
-                background-color: #f0f9f4;
+                height: 406px;
+                text-align: center;
+                background-color: #fff;
                 transition: all 0.5s;
+                box-sizing: border-box;
                 &:hover {
                     transform: translate3d(0, -3px, 0);
                     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
                 }
                 a {
                     img {
-                        width: 306px;
+                        width: 100%;
                     }
                     .name {
-                        padding-top: 12px;
+                        padding-top: 10px;
                         font-size: 22px;
                         color: #333;
                         display: -webkit-box;
@@ -53,8 +129,18 @@
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 1; //当属性值为3，表示超出3行隐藏
                     }
-                    .price {
-                        padding-top: 12px;
+                    .desc {
+                        padding-top: 10px;
+                        font-size: 14px;
+                        color: #999;
+                        display: -webkit-box;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1; //当属性值为3，表示超出3行隐藏
+                    }
+                    .bottom {
+                        padding-top: 10px;
                         font-size: 22px;
                         color: #cf4444;
                         text-align: center;

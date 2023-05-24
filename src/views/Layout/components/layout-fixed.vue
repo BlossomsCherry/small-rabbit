@@ -10,7 +10,7 @@
                         <router-link to="/">首页</router-link>
                     </li>
                     <li v-for="(item, index) in categoryList" :key="item.id">
-                        <router-link to="/">{{ item.name }}</router-link>
+                        <router-link :to="`/category/${item.id}`">{{ item.name }}</router-link>
                     </li>
                 </ul>
             </div>
@@ -30,6 +30,8 @@
             default: []
         }
     })
+
+    //吸顶导航栏
     const showRef = ref()
     window.addEventListener('scroll', () => {
         const scrollTop = document.documentElement.scrollTop

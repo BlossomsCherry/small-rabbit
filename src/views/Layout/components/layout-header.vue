@@ -9,8 +9,8 @@
                     <li>
                         <router-link to="/">首页</router-link>
                     </li>
-                    <li v-for="(item, index) in categoryList" :key="item.id">
-                        <router-link to="/">{{ item.name }}</router-link>
+                    <li v-for="item in categoryList" :key="item.id">
+                        <router-link :to="`/category/${item.id}`">{{ item.name }}</router-link>
                     </li>
                 </ul>
             </div>

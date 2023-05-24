@@ -12,16 +12,16 @@ const router = createRouter({
         //一级路由
         {
             path: '/layout',
-            component: () => import('@/views/Layout/layout.vue'),
+            component: () => import('@/views/Layout/index.vue'),
             //二级路由
             children: [
                 {
-                    path: 'home',
-                    component: () => import('@/views/Home/home.vue')
+                    path: '',
+                    component: () => import('@/views/Home/index.vue')
                 },
                 {
-                    path: 'category',
-                    component: () => import('@/views/Category/CateGory.vue')
+                    path: '/category/:id',
+                    component: () => import('@/views/Category/index.vue')
                 }
             ]
         },

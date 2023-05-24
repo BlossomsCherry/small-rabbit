@@ -101,12 +101,15 @@
 <style lang="less" scoped>
     .footer {
         display: flex;
-        background-color: #fff;
+        padding-top: 20px;
+        background-color: #f5f5f5;
         justify-content: center;
         flex-direction: column;
         align-items: center;
         .contact {
             padding: 60px 0 40px 25px;
+            width: 100%;
+            background-color: #fff;
             .container {
                 display: flex;
                 justify-content: space-between;
