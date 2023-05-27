@@ -8,13 +8,13 @@ export function getGoodsApi() {
 }
 
 //轮播图
-export function getHomeBannerApi(params = {}) {
+export function getHomeBannerApi(type) {
     //默认为1，商品为2
-    const { distributionSite = '1' } = params
+    if (!type) type = 1
     return httpInstance({
         url: '/home/banner',
         params: {
-            distributionSite
+            distributionSite: String(type)
         }
     })
 }

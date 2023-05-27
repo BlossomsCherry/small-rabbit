@@ -17,8 +17,8 @@ const useHomeStore = defineStore('home', {
     }),
     actions: {
         //轮播图
-        async fetchHomeBanner({}) {
-            const res = await getHomeBannerApi({})
+        async fetchHomeBanner(type) {
+            const res = await getHomeBannerApi(type)
             this.bannerList = res.data.result
             return res
         },
@@ -32,14 +32,14 @@ const useHomeStore = defineStore('home', {
         //新鲜好物
         async fetchHomeNew() {
             const res = await getHomeNewApi()
-            this.newList = res.data.result
+            this.newList = res.data?.result
             return res
         },
 
         //人气推荐
         async fetchHomeHot() {
             const res = await getHomeHotApi()
-            this.hotList = res.data.result
+            this.hotList = res.data?.result
         }
     }
 })

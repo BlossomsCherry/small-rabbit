@@ -1,6 +1,6 @@
 :root {
     --primary-color: #27ba9b;
-    --el-color-primary: #27ba9b;
+    --el-color-primary: #27ba9b !important;
 }
 
 body {

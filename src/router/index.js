@@ -22,14 +22,29 @@ const router = createRouter({
                 {
                     path: '/category/:id',
                     component: () => import('@/views/Category/index.vue')
+                },
+                {
+                    path: '/category/sub/:id',
+                    component: () => import('@/views/subCategory/index.vue')
+                },
+                {
+                    path: '/detail/:id',
+                    component: () => import('@/views/Detail/index.vue')
                 }
             ]
         },
         {
             path: '/login',
-            component: () => import('@/views/Login/login.vue')
+            component: () => import('@/views/Login/index.vue')
         }
-    ]
+    ],
+
+    //路由行为配置(切换路由时，自动滚动到顶部)
+    scrollBehavior() {
+        return {
+            top: 0
+        }
+    }
 })
 
 export default router

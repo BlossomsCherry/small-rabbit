@@ -4,7 +4,10 @@ import { defineStore } from 'pinia'
 const useLayoutStore = defineStore('layout', {
     state: () => ({
         //导航列表数据
-        categoryList: []
+        categoryList: [],
+
+        //导航index
+        currentIndex: -1
     }),
     actions: {
         async fetchCategories() {

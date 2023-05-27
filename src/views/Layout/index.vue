@@ -16,26 +16,24 @@
     </div>
 </template>
 
-<script>
-    export default { name: 'layout' }
-</script>
 <script setup>
-    import layoutNav from './components/layout-nav.vue'
-    import layoutHeader from './components/layout-header.vue'
-    import layoutFooter from './components/layout-footer.vue'
-    import layoutFixed from './components/layout-fixed.vue'
-    import useLayoutStore from '@/store/modules/layout'
-    import { storeToRefs } from 'pinia'
+import layoutNav from './components/layout-nav.vue'
+import layoutHeader from './components/layout-header.vue'
+import layoutFooter from './components/layout-footer.vue'
+import layoutFixed from './components/layout-fixed.vue'
+import useLayoutStore from '@/store/modules/layout'
+import { storeToRefs } from 'pinia'
 
-    //发送网络请求
-    const layoutStore = useLayoutStore()
+//发送网络请求
+const layoutStore = useLayoutStore()
 
-    const { categoryList } = storeToRefs(layoutStore)
-    layoutStore.fetchCategories()
+const { categoryList } = storeToRefs(layoutStore)
+layoutStore.fetchCategories()
+
 </script>
 
 <style lang="less" scoped>
-    .layout {
-        overflow-x: hidden;
-    }
+.layout {
+    overflow-x: hidden;
+}
 </style>
