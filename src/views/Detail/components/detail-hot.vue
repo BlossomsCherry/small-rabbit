@@ -2,7 +2,7 @@
     <div class="hot">
         <h3>{{ title }}</h3>
         <template v-for="item in goodsData" :key="item.id">
-            <router-link to="/">
+            <router-link :to="`/detail/${item.id}`">
                 <img :src="item.picture" alt="">
                 <div class="name">{{ item.name }}</div>
                 <div class="desc">{{ item.desc }}</div>

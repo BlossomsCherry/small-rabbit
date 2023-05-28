@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <div class="container" v-if="detailList.details">
+        <div class="container" v-if="detailList?.details">
             <!-- 面包屑导航 -->
             <detail-bread :detail-list="detailList"></detail-bread>
 
@@ -24,7 +24,7 @@ import detailFooter from './components/detail-footer.vue'
 const route = useRoute()
 
 const detailStore = useDetailStore()
-const { detailList, goodsDate } = storeToRefs(detailStore)
+const { detailList } = storeToRefs(detailStore)
 
 //网络请求
 detailStore.fetchDetail(route.params.id)

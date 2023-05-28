@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import useLayoutStore from '@/store/modules/layout';
 import { storeToRefs } from 'pinia';
 defineProps({
@@ -37,7 +37,9 @@ defineProps({
 
 //吸顶导航栏
 const showRef = ref()
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', fixed)
+
+function fixed() {
     const scrollTop = document.documentElement.scrollTop
     if (scrollTop > 70) {
         showRef.value.style.opacity = 1
@@ -46,7 +48,14 @@ window.addEventListener('scroll', () => {
         showRef.value.style.opacity = 0
         showRef.value.style.top = -70 + 'px'
     }
+}
+
+//切换路由后删除这个事件
+onUnmounted(() => {
+    window.removeEventListener('scroll', fixed)
 })
+
+
 
 const layoutStore = useLayoutStore()
 const { currentIndex } = storeToRefs(layoutStore)
@@ -62,7 +71,7 @@ function activeClick(index) {
     left: 0;
     right: 0;
     display: flex;
-    opacity: 1;
+    opacity: 0;
     background-color: #fff;
     transition: top 0.6s;
     justify-content: center;

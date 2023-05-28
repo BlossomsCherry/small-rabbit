@@ -1,8 +1,17 @@
 <template>
     <div class="nav">
         <div class="container">
-            <ul>
+
+            <!-- 根据token区分登录和非登录状态 -->
+            <ul v-if="!Object.keys(token).length">
                 <li><router-link to="/login">请先登录</router-link></li>
+                <li><router-link to="/">帮助中心</router-link></li>
+                <li><router-link to="/">关于我们</router-link></li>
+            </ul>
+            <ul v-else>
+                <li><router-link to="/"><i class="iconfont icon-user"></i>{{ token.data.result.account }}</router-link>
+                </li>
+                <li><router-link to="/" @click="exitClick">退出登录</router-link></li>
                 <li><router-link to="/">帮助中心</router-link></li>
                 <li><router-link to="/">关于我们</router-link></li>
             </ul>
@@ -10,7 +19,23 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { storeToRefs } from 'pinia';
+import useUserStore from '@/store/modules/user';
+import { delToken } from '@/hook/storage';
+
+const userStore = useUserStore()
+const { token } = storeToRefs(userStore)
+
+
+//退出登录
+function exitClick() {
+    token.value = {}
+    //清除本地存储
+    delToken()
+}
+
+</script>
 
 <style lang="less" scoped>
 .nav {
@@ -48,4 +73,5 @@
             }
         }
     }
-}</style>
+}
+</style>
