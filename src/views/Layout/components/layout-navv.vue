@@ -3,45 +3,39 @@
         <div class="container">
 
             <!-- 根据token区分登录和非登录状态 -->
-            <ul v-if="!Object.keys(token).length">
-                <li><router-link to="/login">请先登录</router-link></li>
+            <ul v-if="!Object.keys(userData).length">
+                <li><router-link to="/newLogin">请先登录</router-link></li>
                 <li><router-link to="/">帮助中心</router-link></li>
                 <li><router-link to="/">关于我们</router-link></li>
             </ul>
             <ul v-else>
                 <li>
                     <router-link to="/">
-                        <!-- <i class="iconfont icon-user"></i>
-                        {{ token.data.result.account }} -->
                         <div class="user" @mouseenter="enterUser" @mouseleave="leaveUser" ref="userRef">
-                            <img :src="userData().data.avatarUrl" alt="">
+                            <img :src="userData.data.avatarUrl" alt="">
                         </div>
                     </router-link>
 
                     <div class="bottom" ref="bottomRef" @mouseenter="enterUser" @mouseleave="leaveUser">
                         <div class="head">
-                            <h2>{{ userData().data.name }}</h2>
-                            <p class="id">ID: {{ userData().data.id }}</p>
+                            <h2>{{ userData.data.name }}</h2>
+                            <p class="id">ID: {{ userData.data.id }}</p>
                         </div>
                         <div class="body">
                             <el-collapse>
                                 <el-collapse-item title="个人信息" name="1">
-                                    <div>
-                                        Consistent with real life: in line with the process and logic of real
-                                        life, and comply with languages and habits that the users are used to;
+                                    <div class="message">
+                                        <span>邮箱：</span> {{ userData.data.email }}
                                     </div>
                                 </el-collapse-item>
-                                <el-collapse-item title="Feedback" name="2">
-                                    <div>
-                                        Operation feedback: enable the users to clearly perceive their
-                                        operations by style updates and interactive effects;
+                                <el-collapse-item title="个人介绍" name="2">
+                                    <div class="introduce">
+                                        {{ userData.data.bio }}
+                                        <!-- 立身贞固，内含玉润，外表澜清！ -->
                                     </div>
-                                    <div>
-                                        Visual feedback: reflect current state by updating or rearranging
-                                        elements of the page.
-                                    </div>
+
                                 </el-collapse-item>
-                                <el-collapse-item title="Efficiency" name="3">
+                                <el-collapse-item title="修改信息" name="3">
                                     <div>
                                         Simplify the process: keep operating process simple and intuitive;
                                     </div>
@@ -54,18 +48,22 @@
                                         the users to identify and frees them from memorizing and recalling.
                                     </div>
                                 </el-collapse-item>
-
                             </el-collapse>
                         </div>
+
+                        <div class="footer">
+                            <span @click="confirm">退出登录</span>
+                        </div>
                     </div>
+
                 </li>
-                <li>
+                <!-- <li>
                     <el-popconfirm @confirm="confirm" title="确定退出吗?" confirm-button-text="确认" cancel-button-text="取消">
                         <template #reference>
                             退出登录
                         </template>
                     </el-popconfirm>
-                </li>
+                </li> -->
                 <li><router-link to="/">帮助中心</router-link></li>
                 <li><router-link to="/">关于我们</router-link></li>
             </ul>
@@ -76,25 +74,29 @@
 <script setup>
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import useUserStore from '@/store/modules/user'
 import { delToken, getToken } from '@/hook/storage'
-import userData from '@/assets/data/user.js'
+import useNewUserStore from '@/store/modules/newUser';
+// import userData from '@/assets/data/user.js'
+import { updatePassword } from '@/services/modules/tok'
 
-const userStore = useUserStore()
-const { token } = storeToRefs(userStore)
+const newUserStore = useNewUserStore()
+const { userData } = storeToRefs(newUserStore)
 
-console.log(userData());
+
+
 //从本地存储获取token数据
 getToken().then(res => {
-    token.value = res
+    userData.value = res
+    console.log(userData.value)
 })
 
 //退出登录
 function confirm() {
-    token.value = {}
+    userData.value = {}
     //清除本地存储
     delToken()
 }
+
 
 const bottomRef = ref(null)
 const userRef = ref(null)
@@ -133,7 +135,6 @@ function leaveUser() {
             align-items: center;
 
             li {
-
                 a {
                     display: inline-block;
                     padding: 0 15px;
@@ -144,7 +145,7 @@ function leaveUser() {
                     .user {
                         position: absolute;
                         top: 10px;
-                        right: 274px;
+                        right: 191px;
                         width: 34px;
                         height: 34px;
                         border-radius: 100px;
@@ -173,7 +174,7 @@ function leaveUser() {
                     display: none;
                     position: absolute;
                     top: 58px;
-                    right: 165px;
+                    right: 82px;
                     width: 305px;
                     height: 450px;
                     // opacity: 0;
@@ -206,11 +207,35 @@ function leaveUser() {
 
                     .body {
                         padding: 0 10px;
+                        cursor: pointer;
 
                         &:deep(.el-collapse-item__header) {
                             font-weight: 600;
                             color: #666;
                         }
+
+                        .message {
+                            font-size: 16px;
+                            color: skyblue;
+                        }
+
+                        .introduce {
+                            font-size: 14px;
+                            color: skyblue;
+                        }
+                    }
+
+                    .footer {
+                        margin: 50px 0;
+                        text-align: center;
+
+                        span {
+                            border: 0;
+                            font-size: 20px;
+                            color: var(--primary-color);
+                            cursor: pointer;
+                        }
+
                     }
 
                 }

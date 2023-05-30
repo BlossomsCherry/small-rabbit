@@ -93,7 +93,7 @@
             </div>
 
             <div class="btn">
-                <el-button>
+                <el-button @click="btClick">
                     <span>加入购物车</span>
                 </el-button>
             </div>
@@ -104,8 +104,10 @@
 <script setup>
 import { ref } from 'vue'
 import imageView from './imageView.vue'
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 
-defineProps({
+const props = defineProps({
     detailList: {
         type: Object,
         default: () => ({})
@@ -114,16 +116,48 @@ defineProps({
 
 const num = ref(1)
 //尺码点击
-const currentIndex = ref(``)
+const currentIndex = ref(null)
 function activeClick(index) {
-    currentIndex.value = index
+
+    //重复点击已选择的规格，就取消选择
+    if (currentIndex.value === index) {
+        currentIndex.value = null
+    }
+    else {
+        currentIndex.value = index
+    }
 }
 
 
 //颜色点击
-const imgIndex = ref()
+const imgIndex = ref(null)
 function imgClick(index) {
-    imgIndex.value = index
+    if (imgIndex.value === index) {
+        imgIndex.value = null
+    }
+    else {
+        imgIndex.value = index
+    }
+}
+
+//判断商品的选择情况
+function btClick() {
+    if (props.detailList.specs[0] && imgIndex.value === null) {
+        ElMessage({
+            message: `请选择${props.detailList.specs[0]?.name}`,
+            type: 'warning',
+        })
+    } else if (props.detailList.specs[1] && currentIndex.value == null) {
+        ElMessage({
+            message: `请选择${props.detailList.specs[1]?.name}`,
+            type: 'warning',
+        })
+    } else if (num.value < 1) {
+        ElMessage({
+            message: `请选择商品数量`,
+            type: 'warning',
+        })
+    }
 }
 </script>
 

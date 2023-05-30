@@ -55,21 +55,28 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref } from 'vue'
-import useUserStore from '@/store/modules/user'
+import useNewUserStore from '@/store/modules/newUser.js'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { storeToRefs } from 'pinia';
 import { setToken, getToken, delToken } from '@/hook/storage'
 
-const userStore = useUserStore()
-const { result, token } = storeToRefs(userStore)
+const newUserStore = useNewUserStore()
+const { userData } = storeToRefs(newUserStore)
 const router = useRouter()
+
+const token = 'd0f1bb69c2f5444b8b216935132ec120'
+// newUserStore.fetchToken(token).then(res => {
+//     console.log('kkk', res)
+// })
+
+
 //表单校验（账户名、密码）
 
 //1.准备表单对象
 const form = ref({
-    user: '12056258293',
-    password: 'hm#qd@23!',
+    user: '长安',
+    password: '11552842',
     agree: true
 })
 
@@ -110,30 +117,34 @@ async function loginClick() {
 
         //以volid作为判断条件，如果通过校验才执行登录逻辑
         if (volid) {
-            await userStore.fetchLogin(user, password)
-            // console.log(result.value);
+            await newUserStore.fetchToken(token).then(res => {
+                console.log("uu", res);
+            })
 
             //先判断是否响应成功(通过返回的状态码来判断)
-            if (result.value.status === 200) {
+            if (userData.value.data.status === 200 &&
+                userData.value.data.data.name === form.value.user &&
+                userData.value.data.data.id == form.value.password) {
                 //1.提示用户
                 ElMessage({
                     message: '登录成功',
                     type: 'success',
                 })
-                // console.log('token', JSON.parse(result.value.config.data));
+                // console.log('token', JSON.stringify(userData.value.data));
 
                 //存储数据到本地
-                setToken(result.value)
-                console.log('token：', token.value)
+                setToken(userData.value.data)
+                // console.log('token：', userData.value)
 
 
                 //2.跳转首页
                 router.replace('/')
+            } else {
+                ElMessage.error('用户名或密码错误')
             }
         }
     })
 }
-
 </script>
 
 <style lang="less" scoped>
@@ -241,6 +252,10 @@ async function loginClick() {
                 color: #999;
                 font-size: 15px;
                 cursor: default;
+            }
+
+            img {
+                width: 200px;
             }
         }
     }

@@ -1,13 +1,7 @@
-import useUserStore from '@/store/modules/user'
-import { storeToRefs } from 'pinia'
-
-const useStore = useUserStore()
-const { token } = storeToRefs(useStore)
-
 //存储token
-export function setToken() {
+export function setToken(token) {
     // 存储复杂数据类型必须装换成 JSON 字符串来存储
-    localStorage.setItem('token', JSON.stringify(token.value))
+    localStorage.setItem('token', JSON.stringify(token))
 }
 
 //获取token

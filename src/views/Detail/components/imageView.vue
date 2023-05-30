@@ -1,14 +1,14 @@
 <template>
     <div class="goods-img">
         <div class="middle" ref="middleRef">
-            <img :src="detailList.mainPictures[0]" alt="" />
+            <img :src="detailList.mainPictures[currentIndex]" alt="" />
 
             <!-- 小遮罩层 -->
             <div class="layer" ref="layerRef"></div>
         </div>
         <div class="small">
             <ul>
-                <li v-for=" (item, index) in detailList?.mainPictures" :key="index">
+                <li v-for=" (item, index) in detailList?.mainPictures" :key="index" @mousemove="currentIndex = index">
                     <img :src="item" alt="" />
                 </li>
             </ul>
@@ -34,6 +34,7 @@ defineProps({
 
 const middleRef = ref(null)
 const layerRef = ref(null)
+const currentIndex = ref(0)
 
 </script>
 
@@ -79,6 +80,11 @@ const layerRef = ref(null)
                 &:hover {
                     border-color: var(--primary-color);
                 }
+
+            }
+
+            &:active {
+                border-color: var(--primary-color);
             }
         }
     }

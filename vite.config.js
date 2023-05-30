@@ -17,6 +17,16 @@ export default defineConfig({
             resolvers: [ElementPlusResolver()]
         })
     ],
+    server: {
+        //配置代理，解决跨域问题
+        proxy: {
+            '/api': {
+                target: 'http://10.131.140.99', //后端地址
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/api/, '') // 不可以省略rewrite
+            }
+        }
+    },
     resolve: {
         // 实际的路径转换  @  -> src
         alias: {

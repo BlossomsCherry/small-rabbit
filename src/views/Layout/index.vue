@@ -3,7 +3,8 @@
         <layout-fixed :categoryList="categoryList"></layout-fixed>
 
         <!-- 导航栏 -->
-        <layout-nav></layout-nav>
+        <!-- <layout-nav></layout-nav> -->
+        <layout-navv></layout-navv>
 
         <!-- header区域 -->
         <layoutHeader :categoryList="categoryList"></layoutHeader>
@@ -17,7 +18,8 @@
 </template>
 
 <script setup>
-import layoutNav from './components/layout-nav.vue'
+// import layoutNav from './components/layout-nav.vue'
+import layoutNavv from './components/layout-navv.vue'
 import layoutHeader from './components/layout-header.vue'
 import layoutFooter from './components/layout-footer.vue'
 import layoutFixed from './components/layout-fixed.vue'
