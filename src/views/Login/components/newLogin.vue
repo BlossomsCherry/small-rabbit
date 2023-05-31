@@ -10,7 +10,9 @@
                 </router-link>
             </div>
         </div>
-        <div class="section">
+
+        <!-- 登录、注册 -->
+        <div class="section" v-if="show">
             <div class="wrapper">
                 <div class="head">
                     <h3>账户登录</h3>
@@ -29,12 +31,17 @@
                             </el-checkbox>
                         </el-form-item>
                         <el-form-item size="large">
-                            <el-button type="primary" @click="loginClick">点击登录</el-button>
+                            <el-button type="primary" @click="loginClick">登录</el-button>
+                        </el-form-item>
+                        <el-form-item size="large">
+                            <el-button type="primary" @click="show = false">注册</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
             </div>
         </div>
+        <router-view></router-view>
+
         <div class="footer">
             <div class="copyright">
                 <div class="top">
@@ -53,22 +60,18 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import useNewUserStore from '@/store/modules/newUser.js'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 import { setToken, getToken, delToken } from '@/hook/storage'
 
 const newUserStore = useNewUserStore()
-const { userData } = storeToRefs(newUserStore)
+const { userData, show, token } = storeToRefs(newUserStore)
 const router = useRouter()
 
-const token = 'd0f1bb69c2f5444b8b216935132ec120'
-// newUserStore.fetchToken(token).then(res => {
-//     console.log('kkk', res)
-// })
 
 
 //表单校验（账户名、密码）
@@ -124,7 +127,7 @@ async function loginClick() {
             //先判断是否响应成功(通过返回的状态码来判断)
             if (userData.value.data.status === 200 &&
                 userData.value.data.data.name === form.value.user &&
-                userData.value.data.data.id == form.value.password) {
+                userData.value.data.data.password == form.value.password) {
                 //1.提示用户
                 ElMessage({
                     message: '登录成功',

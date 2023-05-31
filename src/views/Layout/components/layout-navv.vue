@@ -1,18 +1,17 @@
 <template>
     <div class="nav">
         <div class="container">
-
             <!-- 根据token区分登录和非登录状态 -->
             <ul v-if="!Object.keys(userData).length">
-                <li><router-link to="/newLogin">请先登录</router-link></li>
+                <li><router-link to="/newLogin">用户登录</router-link></li>
                 <li><router-link to="/">帮助中心</router-link></li>
                 <li><router-link to="/">关于我们</router-link></li>
             </ul>
             <ul v-else>
                 <li>
                     <router-link to="/">
-                        <div class="user" @mouseenter="enterUser" @mouseleave="leaveUser" ref="userRef">
-                            <img :src="userData.data.avatarUrl" alt="">
+                        <div class="user" @mousemove="enterUser" @mouseleave="leaveUser" ref="userRef">
+                            <img :src="userData.data.avatarUrl" alt="" />
                         </div>
                     </router-link>
 
@@ -22,10 +21,23 @@
                             <p class="id">ID: {{ userData.data.id }}</p>
                         </div>
                         <div class="body">
-                            <el-collapse>
-                                <el-collapse-item title="个人信息" name="1">
+                            <el-collapse accordion="true">
+                                <el-collapse-item title="个人账号" name="1">
                                     <div class="message">
-                                        <span>邮箱：</span> {{ userData.data.email }}
+                                        <div class="item">
+                                            <span>邮箱：</span>
+                                            <a href="javascript:;">{{ userData.data.email }}</a>
+                                        </div>
+                                        <div class="item">
+                                            <span>GitHub: </span>
+                                            <a href="https://github.com/BlossomsCherry/small-rabbit.git">
+                                                BlossomsCherry</a>
+                                        </div>
+                                        <div class="item">
+                                            <span>Gitee: </span>
+                                            <a href="https://gitee.com/changantuanzi">
+                                                @changantuanzi</a>
+                                        </div>
                                     </div>
                                 </el-collapse-item>
                                 <el-collapse-item title="个人介绍" name="2">
@@ -33,37 +45,22 @@
                                         {{ userData.data.bio }}
                                         <!-- 立身贞固，内含玉润，外表澜清！ -->
                                     </div>
-
                                 </el-collapse-item>
                                 <el-collapse-item title="修改信息" name="3">
-                                    <div>
-                                        Simplify the process: keep operating process simple and intuitive;
-                                    </div>
-                                    <div>
-                                        Definite and clear: enunciate your intentions clearly so that the
-                                        users can quickly understand and make decisions;
-                                    </div>
-                                    <div>
-                                        Easy to identify: the interface should be straightforward, which helps
-                                        the users to identify and frees them from memorizing and recalling.
+                                    <div class="update">
+                                        <el-button type="primary">修改密码</el-button>
+                                        <el-button type="primary">修改用户名</el-button>
                                     </div>
                                 </el-collapse-item>
                             </el-collapse>
                         </div>
 
                         <div class="footer">
+                            <i class="iconfont icon-tuichu"></i>
                             <span @click="confirm">退出登录</span>
                         </div>
                     </div>
-
                 </li>
-                <!-- <li>
-                    <el-popconfirm @confirm="confirm" title="确定退出吗?" confirm-button-text="确认" cancel-button-text="取消">
-                        <template #reference>
-                            退出登录
-                        </template>
-                    </el-popconfirm>
-                </li> -->
                 <li><router-link to="/">帮助中心</router-link></li>
                 <li><router-link to="/">关于我们</router-link></li>
             </ul>
@@ -77,7 +74,7 @@ import { storeToRefs } from 'pinia'
 import { delToken, getToken } from '@/hook/storage'
 import useNewUserStore from '@/store/modules/newUser';
 // import userData from '@/assets/data/user.js'
-import { updatePassword } from '@/services/modules/tok'
+import { setPassword } from '@/services/modules/tok'
 
 const newUserStore = useNewUserStore()
 const { userData } = storeToRefs(newUserStore)
@@ -109,13 +106,12 @@ function enterUser() {
 
 }
 function leaveUser() {
-    bottomRef.value.style.display = 'none'
+    bottomRef.value.style.display = 'block'
     userRef.value.style.width = '34px'
     userRef.value.style.height = '34px'
     userRef.value.style.top = '10px'
     userRef.value.style.boxShadow = ' 0 0 0  1px rgba(255, 255, 255, 1) '
 }
-
 </script>
 
 <style lang="less" scoped>
@@ -177,7 +173,6 @@ function leaveUser() {
                     right: 82px;
                     width: 305px;
                     height: 450px;
-                    // opacity: 0;
                     transition: all .5s;
                     border-radius: 10px;
                     color: var(--primary-color);
@@ -199,6 +194,7 @@ function leaveUser() {
                         width: 100%;
                         height: 32px;
                         text-align: center;
+                        cursor: pointer;
 
                         .id {
                             margin-top: 10px;
@@ -206,6 +202,7 @@ function leaveUser() {
                     }
 
                     .body {
+                        position: relative;
                         padding: 0 10px;
                         cursor: pointer;
 
@@ -214,20 +211,62 @@ function leaveUser() {
                             color: #666;
                         }
 
+                        &:deep(.el-collapse-item) {
+                            padding-left: 20px;
+                        }
+
+
                         .message {
+                            display: flex;
                             font-size: 16px;
-                            color: skyblue;
+                            // color: skyblue;
+                            flex-direction: column;
+
+                            .item {
+                                display: flex;
+                                align-items: center;
+
+                                span {
+                                    width: 70px;
+                                }
+
+                                a {
+                                    color: pink;
+                                    font-size: 16px;
+
+                                    &:hover {
+                                        color: var(--primary-color);
+                                    }
+                                }
+
+                            }
+
+
                         }
 
                         .introduce {
                             font-size: 14px;
-                            color: skyblue;
+                            text-align: center;
+                            color: pink;
+                        }
+
+                        .update {
+                            display: flex;
+                            padding-top: 10px;
+                            justify-content: center;
                         }
                     }
 
                     .footer {
+                        display: flex;
                         margin: 50px 0;
-                        text-align: center;
+                        justify-content: center;
+                        align-items: center;
+
+                        i {
+                            margin-right: 15px;
+                            font-size: 22px;
+                        }
 
                         span {
                             border: 0;

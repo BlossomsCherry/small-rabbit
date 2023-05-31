@@ -6,6 +6,6 @@ import router from './router'
 
 import 'normalize.css'
 import './assets/css/index.css'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import './assets/fonts/iconfont.css'
 
-createApp(App).use(pinia).use(router).use(ElementPlusIconsVue).mount('#app')
+createApp(App).use(pinia).use(router).mount('#app')

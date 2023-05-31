@@ -6,20 +6,28 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { getToken, updatePassword } from './services/modules/tok';
+import { getUserMessage, setPassword, changePassword, changeName } from './services/modules/tok';
+import useNewUserStore from '@/store/modules/newUser'
+import { storeToRefs } from 'pinia';
 
 
 
-const token = 'd0f1bb69c2f5444b8b216935132ec120'
+const newUserStore = useNewUserStore()
+const { token } = storeToRefs(newUserStore)
 
 onMounted(async () => {
-    const re = await updatePassword(11552842, 123456)
-    console.log("post", re);
-    const res = await getToken(token)
-    console.log('get', res)
+    // //设置密码
+    // const re = await setPassword(11552842, 123456)
+    // console.log("post", re);
+    // //修改密码
+    // const data = await changePassword(11552842, 'dyj123', 123456)
+    // console.log('change',data)
 
+    const res = await changeName(token, 'uuu',)
+    console.log(res);
+    const value = await getUserMessage(token)
+    console.log('get', value)
 })
-
 </script>
 
 <style lang="less" scoped>

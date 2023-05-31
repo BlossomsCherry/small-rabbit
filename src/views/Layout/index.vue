@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-// import layoutNav from './components/layout-nav.vue'
+import layoutNav from './components/layout-nav.vue'
 import layoutNavv from './components/layout-navv.vue'
 import layoutHeader from './components/layout-header.vue'
 import layoutFooter from './components/layout-footer.vue'
